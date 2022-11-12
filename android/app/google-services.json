@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "104499595395",
+    "project_id": "skyway-b6983",
+    "storage_bucket": "skyway-b6983.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104499595395:android:da8e38bfd1b37bb15f73b6",
+        "android_client_info": {
+          "package_name": "com.example.skyway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104499595395-oalv9b33mdeqsh99lpahu6ojk8kfnq28.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.skyway",
+            "certificate_hash": "9bf687b6b2d9edc1bc44b4ac550093b702472a57"
+          }
+        },
+        {
+          "client_id": "104499595395-58u0a3kp1vs6f10pa0r34fsam3n3sosa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9IxOcv5wOsOzNnyt7M88GjZw9lh13Ahg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104499595395-58u0a3kp1vs6f10pa0r34fsam3n3sosa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
