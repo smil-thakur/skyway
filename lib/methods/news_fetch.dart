@@ -62,7 +62,7 @@ class NewsFetch {
             element["url"] != null) {
           NewModel articleModel1 = NewModel(
               author:
-                  element["author"] != null ? element['author'] : "Anonmous",
+                  element["author"] != null ? element['author'] : "Anonymous",
               content: element["content"] != null
                   ? element['content']
                   : "Non Further Content Available",

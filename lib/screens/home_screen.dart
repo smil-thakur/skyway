@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,7 @@ import 'package:skyway/methods/login_methods.dart';
 import 'package:skyway/methods/news_fetch.dart';
 import 'package:skyway/methods/news_model.dart';
 import 'package:skyway/methods/preference_mthods.dart';
+import 'package:skyway/screens/news_screen.dart';
 import 'package:skyway/widgets/preference.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +23,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isloadingtab = true;
   List<NewModel> news = [];
   List<String> pref = [];
+  var first = "";
+
   Future<void> fetchNews(String category) async {
+    isloading = true;
+    setState(() {});
     news = await NewsFetch().getNewsCategory(category);
     isloading = false;
 
@@ -40,9 +46,16 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  void updateScreen(String category) async {
+    await fetchNews(category);
+    first = category;
+    setState(() {});
+  }
+
   void start() async {
     await updatePref();
     await fetchNews(pref[0]);
+    first = pref[0];
     setState(() {});
   }
 
@@ -107,8 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: CircularProgressIndicator(),
                       )
                     : PreferenceTab(
+                        fun: updateScreen,
                         pref: pref,
-                        first: pref[0],
+                        first: first,
                       ),
                 Expanded(
                   child: ListView.builder(
@@ -116,50 +130,63 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: news.length,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(10),
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    NewsScreen(news: news[index]),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Center(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          news[index].imageUrl,
-                                          width: 300,
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Center(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: CachedNetworkImage(
+                                            imageUrl: news[index].imageUrl,
+                                            placeholder: (context, url) =>
+                                                const CircularProgressIndicator(),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Center(
-                                      child: Text(
-                                        news[index].title,
-                                        style: GoogleFonts.inter(
-                                          fontWeight: FontWeight.bold,
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          news[index].title,
+                                          style: GoogleFonts.inter(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Center(
-                                        child: Text(news[index].description)),
-                                    const Icon(
-                                      Icons.favorite_outline,
-                                    ),
-                                  ],
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Center(
+                                          child: Text(news[index].description)),
+                                      const Icon(
+                                        Icons.favorite_outline,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

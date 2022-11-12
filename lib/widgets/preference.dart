@@ -10,7 +10,9 @@ import 'package:skyway/widgets/pref_tab_button.dart';
 class PreferenceTab extends StatelessWidget {
   final List<String> pref;
   final String first;
-  const PreferenceTab({super.key, required this.pref, required this.first});
+  final Function(String category) fun;
+  const PreferenceTab(
+      {super.key, required this.pref, required this.first, required this.fun});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +25,15 @@ class PreferenceTab extends StatelessWidget {
           itemCount: pref.length,
           physics: const BouncingScrollPhysics(),
           itemBuilder: ((context, index) {
-            return PrefTabButton(
-              iconData: NewsPreference().prefIcon(pref[index]),
-              title: pref[index][0].toUpperCase() + pref[index].substring(1),
-              selected: pref[index] == first ? true : false,
+            return InkWell(
+              onTap: () {
+                fun(pref[index]);
+              },
+              child: PrefTabButton(
+                iconData: NewsPreference().prefIcon(pref[index]),
+                title: pref[index][0].toUpperCase() + pref[index].substring(1),
+                selected: pref[index] == first ? true : false,
+              ),
             );
           })),
     );
