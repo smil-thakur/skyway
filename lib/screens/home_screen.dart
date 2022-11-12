@@ -55,10 +55,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PorfilePage()));
+                  LoginMethods().mySingOut();
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const PorfilePage()));
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),

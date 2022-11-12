@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skyway/methods/login_methods.dart';
 import 'package:skyway/screens/home_screen.dart';
 import 'package:skyway/screens/login_screen.dart';
+import 'package:skyway/screens/pref_screen.dart';
 import 'package:skyway/widgets/signin_google.dart';
 import 'package:skyway/widgets/text_field.dart';
 
@@ -69,14 +70,19 @@ class RegisterScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: InkWell(
-                                onTap: () async {
-                                  User? user =
-                                      await LoginMethods().SiginGoogle();
-                                  if (user == null) {
-                                    print("error");
-                                  } else {
-                                    navigate(user, context);
-                                  }
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PreferenceScreen()));
+                                  // User? user =
+                                  //     await LoginMethods().SiginGoogle();
+                                  // if (user == null) {
+                                  //   print("error");
+                                  // } else {
+                                  //   navigate(user, context);
+                                  // }
                                 },
                                 child: const SigninGoogleButton()),
                           ),
