@@ -14,8 +14,8 @@ import 'package:skyway/widgets/text_field.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
   void navigate(User user, BuildContext context) {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 
   @override

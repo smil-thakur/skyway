@@ -16,8 +16,8 @@ class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
 
   void navigate(User user, BuildContext context) {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => HomeScreen(user: user)));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => PreferenceScreen()));
   }
 
   @override
@@ -70,19 +70,14 @@ class RegisterScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const PreferenceScreen()));
-                                  // User? user =
-                                  //     await LoginMethods().SiginGoogle();
-                                  // if (user == null) {
-                                  //   print("error");
-                                  // } else {
-                                  //   navigate(user, context);
-                                  // }
+                                onTap: () async {
+                                  User? user =
+                                      await LoginMethods().SiginGoogle();
+                                  if (user == null) {
+                                    print("error");
+                                  } else {
+                                    navigate(user, context);
+                                  }
                                 },
                                 child: const SigninGoogleButton()),
                           ),

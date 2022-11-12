@@ -1,36 +1,56 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skyway/methods/firebase_method.dart';
 import 'package:skyway/methods/login_methods.dart';
 import 'package:skyway/methods/news_fetch.dart';
 import 'package:skyway/methods/news_model.dart';
 import 'package:skyway/methods/preference_mthods.dart';
-import 'package:skyway/screens/profile_screen.dart';
 import 'package:skyway/widgets/preference.dart';
 
 class HomeScreen extends StatefulWidget {
-  final User user;
-  const HomeScreen({super.key, required this.user});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final User user = FirebaseAuth.instance.currentUser!;
   bool isloading = true;
+  bool isloadingtab = true;
   List<NewModel> news = [];
-  void fetchNews() async {
-    news = await NewsFetch().getNews();
+  List<String> pref = [];
+  Future<void> fetchNews(String category) async {
+    news = await NewsFetch().getNewsCategory(category);
     isloading = false;
+
+    setState(() {});
+  }
+
+  Future<void> updatePref() async {
+    pref = await FirebaseMethods().updateList(user.uid);
+    List<String> og = NewsPreference().pref;
+    for (int i = 0; i < og.length; i++) {
+      if (!(pref.contains(og[i]))) {
+        pref.add(og[i]);
+      }
+    }
+    isloadingtab = false;
+    setState(() {});
+  }
+
+  void start() async {
+    await updatePref();
+    await fetchNews(pref[0]);
     setState(() {});
   }
 
   @override
   void initState() {
+    start();
     // TODO: implement initState
-    fetchNews();
+
     super.initState();
   }
 
@@ -55,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                  LoginMethods().mySingOut();
+                  FirebaseMethods().updateList(user.uid);
+                  // LoginMethods().mySingOut();
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(
@@ -64,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image.network(
-                    widget.user.photoURL!,
+                    user.photoURL!,
                     width: 40,
                   ),
                 ),
@@ -80,7 +101,15 @@ class _HomeScreenState extends State<HomeScreen> {
           : Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                PreferenceTab(pref: NewsPreference().pref),
+                isloadingtab
+                    ? const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      )
+                    : PreferenceTab(
+                        pref: pref,
+                        first: pref[0],
+                      ),
                 Expanded(
                   child: ListView.builder(
                       shrinkWrap: true,

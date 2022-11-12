@@ -12,6 +12,16 @@ class NewsPreference {
     "sports",
     "technology"
   ];
+  List<String> selectperf = [
+    "business",
+    "entertainment",
+    "general",
+    "health",
+    "science",
+    "sports",
+    "technology",
+    "next",
+  ];
 
   IconData prefIcon(String title) {
     if (title == "business") {

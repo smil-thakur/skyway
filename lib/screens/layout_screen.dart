@@ -19,7 +19,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
       builder: (context, snapshot) {
         print("sun raha hun");
         if (snapshot.hasData) {
-          return HomeScreen(user: FirebaseAuth.instance.currentUser!);
+          return const HomeScreen();
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
