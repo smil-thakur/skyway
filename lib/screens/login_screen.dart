@@ -11,23 +11,33 @@ import 'package:skyway/screens/register_screen.dart';
 import 'package:skyway/widgets/signin_google.dart';
 import 'package:skyway/widgets/text_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   void navigate(User user, BuildContext context) {
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    LoginMethods().mySingOut();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
       body: Stack(
         children: [
           Image.asset(
-            'assets/bg1.jpg',
+            'assets/bg.png',
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
@@ -51,6 +61,13 @@ class LoginScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Image.asset(
+                            "assets/logo.png",
+                            width: 200,
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
                           const MytextField(hint: "Email"),
                           const SizedBox(
                             height: 10,
@@ -67,12 +84,19 @@ class LoginScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: InkWell(
                                 onTap: () async {
-                                  User? user =
-                                      await LoginMethods().SiginGoogle();
-                                  if (user == null) {
-                                    print("error");
+                                  String res =
+                                      await LoginMethods().loginGoogle();
+                                  if (res == "yes") {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                HomeScreen()));
                                   } else {
-                                    navigate(user, context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                "User not found please register")));
                                   }
                                 },
                                 child: const SigninGoogleButton()),

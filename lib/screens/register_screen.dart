@@ -29,7 +29,7 @@ class RegisterScreen extends StatelessWidget {
       body: Stack(
         children: [
           Image.asset(
-            'assets/bg1.jpg',
+            'assets/bg.png',
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
@@ -53,6 +53,13 @@ class RegisterScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Image.asset(
+                            "assets/logo.png",
+                            width: 200,
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
                           const MytextField(hint: "Name"),
                           const SizedBox(height: 10),
                           const MytextField(hint: "Email"),
@@ -74,7 +81,10 @@ class RegisterScreen extends StatelessWidget {
                                   User? user =
                                       await LoginMethods().SiginGoogle();
                                   if (user == null) {
-                                    print("error");
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                "already register please log in")));
                                   } else {
                                     navigate(user, context);
                                   }
@@ -102,10 +112,6 @@ class RegisterScreen extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text(
-                            "By continuing the signin process you agree with all terms and conditions",
-                            textAlign: TextAlign.center,
-                          ),
                         ],
                       ),
                     ),
@@ -115,6 +121,16 @@ class RegisterScreen extends StatelessWidget {
             ),
           )
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          "By continuing the signin process you agree with\nall terms and conditions",
+          textAlign: TextAlign.center,
+          style: GoogleFonts.inter(
+            color: Colors.grey,
+          ),
+        ),
       ),
     );
   }

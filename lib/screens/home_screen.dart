@@ -8,6 +8,7 @@ import 'package:skyway/methods/news_fetch.dart';
 import 'package:skyway/methods/news_model.dart';
 import 'package:skyway/methods/preference_mthods.dart';
 import 'package:skyway/screens/news_screen.dart';
+import 'package:skyway/screens/profile_screen.dart';
 import 'package:skyway/widgets/preference.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isloadingtab = true;
   List<NewModel> news = [];
   List<String> pref = [];
+  bool trending = false;
   var first = "";
 
   Future<void> fetchNews(String category) async {
@@ -47,8 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void updateScreen(String category) async {
+    trending = false;
     await fetchNews(category);
     first = category;
+    setState(() {});
+  }
+
+  Future<void> fetchPopularity() async {
+    isloading = true;
+    setState(() {});
+    news = await NewsFetch().getNewspopularity(first);
+    print(first);
+    isloading = false;
     setState(() {});
   }
 
@@ -70,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff282828),
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Row(
@@ -80,122 +92,175 @@ class _HomeScreenState extends State<HomeScreen> {
               "assets/logo.png",
               width: 100,
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(100),
-                border: Border.all(color: Colors.white, width: 1),
-              ),
-              child: InkWell(
-                onTap: () {
-                  FirebaseMethods().updateList(user.uid);
-                  // LoginMethods().mySingOut();
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => const PorfilePage()));
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.network(
-                    user.photoURL!,
-                    width: 40,
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    if (trending == false) {
+                      trending = true;
+                      fetchPopularity();
+                      setState(() {});
+                    } else {
+                      updateScreen(first);
+                      setState(() {});
+                    }
+                  },
+                  child: Icon(
+                    trending
+                        ? Icons.local_fire_department
+                        : Icons.local_fire_department_outlined,
+                    color: trending ? Colors.orange : Colors.white,
+                    size: 30,
                   ),
                 ),
-              ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(color: Colors.white, width: 1),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PorfilePage()));
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.network(
+                        user.photoURL!,
+                        width: 40,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
-      body: isloading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                isloadingtab
-                    ? const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(),
-                      )
-                    : PreferenceTab(
-                        fun: updateScreen,
-                        pref: pref,
-                        first: first,
-                      ),
-                Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: news.length,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    NewsScreen(news: news[index]),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  border: Border.all(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+      body: Stack(
+        children: [
+          Image.asset(
+            "assets/bg.png",
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            fit: BoxFit.fill,
+          ),
+          isloading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    isloadingtab
+                        ? const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          )
+                        : PreferenceTab(
+                            fun: updateScreen,
+                            pref: pref,
+                            first: first,
+                          ),
+                    Expanded(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: news.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NewsScreen(news: news[index]),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Center(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: CachedNetworkImage(
-                                            imageUrl: news[index].imageUrl,
-                                            placeholder: (context, url) =>
-                                                const CircularProgressIndicator(),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      border: Border.all(color: Colors.white),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Center(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: CachedNetworkImage(
+                                                errorWidget:
+                                                    (context, url, error) {
+                                                  return Image.asset(
+                                                      "assets/logo.png");
+                                                },
+                                                imageUrl: news[index].imageUrl,
+                                                placeholder: (context, url) =>
+                                                    const Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Colors.green,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          news[index].title,
-                                          style: GoogleFonts.inter(
-                                            fontWeight: FontWeight.bold,
+                                          const SizedBox(
+                                            height: 10,
                                           ),
-                                        ),
+                                          Center(
+                                            child: Text(
+                                              news[index].title,
+                                              style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Center(
+                                            child:
+                                                Text(news[index].description),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              news[index]
+                                                  .pubdate
+                                                  .substring(0, 10),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Center(
-                                          child: Text(news[index].description)),
-                                      const Icon(
-                                        Icons.favorite_outline,
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      }),
+                            );
+                          }),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+        ],
+      ),
     );
   }
 }

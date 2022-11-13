@@ -12,6 +12,12 @@ class FirebaseMethods {
     });
   }
 
+  Future<void> premiumok(String id) async {
+    await users.doc(id).update({
+      "paid": true,
+    });
+  }
+
   Future<void> updateUser(
       String id, List pref, String priority, bool paid) async {
     await users.doc(id).update({

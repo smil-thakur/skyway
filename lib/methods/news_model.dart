@@ -5,6 +5,7 @@ class NewModel {
   late String url;
   late String imageUrl;
   late String content;
+  late String pubdate;
 
   NewModel({
     required this.author,
@@ -13,5 +14,6 @@ class NewModel {
     required this.url,
     required this.imageUrl,
     required this.content,
+    required this.pubdate,
   });
 }
