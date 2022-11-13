@@ -23,9 +23,6 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
       body: Stack(
         children: [
           Image.asset(
@@ -53,24 +50,13 @@ class RegisterScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          const SizedBox(
+                            height: 60,
+                          ),
                           Image.asset(
                             "assets/logo.png",
                             width: 200,
                           ),
-                          const SizedBox(
-                            height: 50,
-                          ),
-                          const MytextField(hint: "Name"),
-                          const SizedBox(height: 10),
-                          const MytextField(hint: "Email"),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const MytextField(hint: "Password"),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text("OR"),
                           const SizedBox(
                             height: 10,
                           ),
@@ -89,7 +75,8 @@ class RegisterScreen extends StatelessWidget {
                                     navigate(user, context);
                                   }
                                 },
-                                child: const SigninGoogleButton()),
+                                child:
+                                    const SigninGoogleButton(text: "Sign Up")),
                           ),
                           InkWell(
                             onTap: () {

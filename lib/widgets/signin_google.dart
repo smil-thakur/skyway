@@ -5,7 +5,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SigninGoogleButton extends StatelessWidget {
-  const SigninGoogleButton({super.key});
+  final String text;
+  const SigninGoogleButton({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class SigninGoogleButton extends StatelessWidget {
               width: 20,
             ),
             Text(
-              "Continue with Google",
+              "$text with Google",
               style: GoogleFonts.inter(
                 color: Colors.black,
                 fontSize: 16,

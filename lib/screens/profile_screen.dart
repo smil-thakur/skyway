@@ -5,9 +5,13 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skyway/methods/login_methods.dart';
+import 'package:skyway/screens/Aboutus_screen.dart';
 import 'package:skyway/screens/login_screen.dart';
 import 'package:skyway/screens/skyplus_plus_screen.dart';
 import 'package:skyway/widgets/profile_button.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class PorfilePage extends StatefulWidget {
   const PorfilePage({super.key});
@@ -88,54 +92,37 @@ class _PorfilePageState extends State<PorfilePage> {
         ),
         child: Column(
           children: [
-            Divider(
+            const Divider(
               color: Colors.white,
               height: 1,
             ),
             const SizedBox(
               height: 30,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.light_mode_outlined,
-                    size: 30,
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    "Light Mode",
-                    style: GoogleFonts.inter(
-                      fontSize: 24,
+            InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const AboutUs()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.group_outlined,
+                      size: 30,
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.group_outlined,
-                    size: 30,
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    "About Us",
-                    style: GoogleFonts.inter(
-                      fontSize: 24,
+                    const SizedBox(
+                      width: 20,
                     ),
-                  ),
-                ],
+                    Text(
+                      "About Us",
+                      style: GoogleFonts.inter(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(
@@ -152,7 +139,7 @@ class _PorfilePageState extends State<PorfilePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.exit_to_app,
                       size: 30,
                     ),
@@ -222,21 +209,30 @@ class _PorfilePageState extends State<PorfilePage> {
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: BottomAppBar(
-            color: Colors.black,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                  heightFactor: 1,
-                  child: Text(
-                    "Privacy policy & Terms and Conditions",
-                    style: GoogleFonts.inter(
-                      color: Colors.grey,
-                    ),
-                  )),
-            )),
+      bottomNavigationBar: InkWell(
+        onTap: () async {
+          const url =
+              "https://www.termsfeed.com/public/uploads/2019/04/privacy-policy-template.pdf";
+          if (await canLaunchUrlString(url)) {
+            await launchUrlString(url);
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BottomAppBar(
+              color: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                    heightFactor: 1,
+                    child: Text(
+                      "Privacy policy & Terms and Conditions",
+                      style: GoogleFonts.inter(
+                        color: Colors.grey,
+                      ),
+                    )),
+              )),
+        ),
       ),
     );
   }

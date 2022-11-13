@@ -65,21 +65,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             "assets/logo.png",
                             width: 200,
                           ),
-                          const SizedBox(
-                            height: 50,
-                          ),
-                          const MytextField(hint: "Email"),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const MytextField(hint: "Password"),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text("OR"),
-                          const SizedBox(
-                            height: 10,
-                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: InkWell(
@@ -99,7 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 "User not found please register")));
                                   }
                                 },
-                                child: const SigninGoogleButton()),
+                                child:
+                                    const SigninGoogleButton(text: "Sign in")),
                           ),
                           InkWell(
                             onTap: () {

@@ -22,6 +22,7 @@ class _PayThroughState extends State<PayThrough> {
   void navigate(BuildContext context) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: Duration(milliseconds: 700),
         content: Center(
           child: Container(
             decoration: BoxDecoration(

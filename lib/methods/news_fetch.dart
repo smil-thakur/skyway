@@ -4,12 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:skyway/methods/news_model.dart';
 
 class NewsFetch {
-  final String API_KEY = "1376078cd8774cf78cedbd73a3062e9a";
+  final String API_KEY = "1abd2a04738f40029750501e1f9baa5b";
 
   Future<List<NewModel>> getNews() async {
     List<NewModel> news = [];
     String url =
-        "https://newsapi.org/v2/top-headlines?country=in&category=general&apiKey=1376078cd8774cf78cedbd73a3062e9a";
+        "https://newsapi.org/v2/top-headlines?country=in&category=general&apiKey=$API_KEY";
 
     var response = await http.get(Uri.parse(url));
 
@@ -46,7 +46,7 @@ class NewsFetch {
   Future<List<NewModel>> getNewsCategory(String category) async {
     List<NewModel> news = [];
     String url =
-        "https://newsapi.org/v2/top-headlines?country=in&category=$category&apiKey=1376078cd8774cf78cedbd73a3062e9a";
+        "https://newsapi.org/v2/top-headlines?country=in&category=$category&apiKey=$API_KEY";
 
     var response = await http.get(Uri.parse(url));
 
@@ -83,7 +83,7 @@ class NewsFetch {
   Future<List<NewModel>> getNewspopularity(String category) async {
     List<NewModel> news = [];
     String url =
-        "https://newsapi.org/v2/everything?q=$category&sortBy=popularity&apiKey=1376078cd8774cf78cedbd73a3062e9a";
+        "https://newsapi.org/v2/everything?q=$category&sortBy=popularity&apiKey=$API_KEY";
 
     var response = await http.get(Uri.parse(url));
 
