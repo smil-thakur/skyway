@@ -68,9 +68,4 @@ information (as and when published) in an elegant way.
 ![WhatsApp Image 2022-11-13 at 06 00 29](https://user-images.githubusercontent.com/83179688/201505694-1ae34e0b-738c-473d-b761-b17b86e96963.jpeg)
 
 
-## Authors
 
-- [@smil-thakur](https://www.github.com/smil-thakur)
-- [@aarshita02](https://www.github.com/aarshita02)
-- [@divyavert](https://www.github.com/divyavert)
-- [@TANMAY3122](https://www.github.com/TANMAY3122)
