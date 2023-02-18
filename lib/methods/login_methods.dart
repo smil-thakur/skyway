@@ -66,12 +66,7 @@ class LoginMethods {
   }
 
   Future mySingOut() async {
-    try {
-      auth.signOut();
-      GoogleSignIn().signOut();
-      print(auth.currentUser);
-    } catch (e) {
-      print(e);
-    }
+    await auth.signOut();
+    await GoogleSignIn().signOut();
   }
 }

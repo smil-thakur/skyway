@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skyway/methods/login_methods.dart';
 import 'package:skyway/screens/Aboutus_screen.dart';
+import 'package:skyway/screens/layout_screen.dart';
 import 'package:skyway/screens/login_screen.dart';
 import 'package:skyway/screens/skyplus_plus_screen.dart';
 import 'package:skyway/widgets/profile_button.dart';
@@ -130,9 +131,10 @@ class _PorfilePageState extends State<PorfilePage> {
             ),
             InkWell(
               onTap: () {
+                LoginMethods().mySingOut();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                        builder: (context) => const LoginScreen()),
+                        builder: (context) => const LayoutScreen()),
                     (Route<dynamic> route) => false);
               },
               child: Padding(

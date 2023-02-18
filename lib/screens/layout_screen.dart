@@ -17,7 +17,6 @@ class _LayoutScreenState extends State<LayoutScreen> {
     return StreamBuilder(
       stream: LoginMethods().authChanges,
       builder: (context, snapshot) {
-        print("sun raha hun");
         if (snapshot.hasData) {
           return const HomeScreen();
         }

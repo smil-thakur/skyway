@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skyway/methods/login_methods.dart';
 import 'package:skyway/screens/home_screen.dart';
@@ -27,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    LoginMethods().mySingOut();
     super.initState();
   }
 
@@ -72,11 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   String res =
                                       await LoginMethods().loginGoogle();
                                   if (res == "yes") {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                HomeScreen()));
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
